@@ -1,0 +1,104 @@
+<app-header></app-header>
+
+<div class="container-fluid m-0 p-0 overflow-hidden">
+  <div class="row g-0" style="height: 90vh">
+    <!-- 90% no ekrāna-->
+
+    <!-- Kreisā puse -->
+    <div class="col-6 d-flex justify-content-center align-items-center bg-primary text-white">
+      <div class="text-center w-75">
+        <p class="mb-4 fs-5">Sign Up or Log In to create, sign or cancel your events</p>
+        <form class="d-flex flex-column align-items-center">
+          <!-- Vārds -->
+          <div class="mb-3 w-75">
+            <label for="name" class="form-label"></label>
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              id="name"
+              placeholder="Name"
+              [field]="userForma.name"
+            />
+            <!-- Parādīt vārda requirments kļūdu, ja ir-->
+            <ul class="m-0 p-0" style="list-style-position: inside">
+              @for(err of userForma.name().errors(); track $index) {
+              <li>{{ err.message }}</li>
+              }
+            </ul>
+          </div>
+
+          <!-- Parole -->
+          <div class="mb-3 w-75">
+            <label for="password" class="form-label"></label>
+            <input
+              type="password"
+              class="form-control form-control-lg"
+              id="password"
+              placeholder="Password"
+              [field]="userForma.password"
+            />
+            <!-- paroles kļūdu requirementi -->
+            <div class="align-items-center m-0 p-0">
+              <ul class="m-0 p-0" style="list-style-position: inside">
+                @for(err of userForma.password().errors(); track $index){
+                <li>{{ err.message }}</li>
+                }
+              </ul>
+            </div>
+          </div>
+          <button type="button" (click)="logInUser(this.userSignals())">Log In</button>
+          <button type="button" (click)="signUpUser()">Sign Up</button>
+          <button type="button" (click)="mekletUseri()">Meklet useri</button>
+
+          <div [hidden]="!this.signUp.signUpClicked">
+            @if(this.userForma().valid() && this.signUp.signUpClicked) {
+            <p>User created, enter username and passsword again to log in.</p>
+            } @else {
+            <p>Double check the requirements for username and password.</p>
+            }
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Labā puse -->
+    <div class="col-6 d-flex justify-content-center align-items-center bg-light">
+      <div class="container text-center">
+        <h3 class="mb-4">Here you can:</h3>
+        <!-- Paskatit eventus -->
+        <div class="row g-4 justify-content-center">
+          <div class="col-6">
+            <div
+              class="bg-primary text-white p-5 rounded d-flex align-items-center justify-content-center"
+            >
+              Look at the events happening, bilde ar lupu
+            </div>
+          </div>
+          <!-- Uztaisit eventus -->
+          <div class="col-6">
+            <div
+              class="bg-success text-white p-5 rounded d-flex align-items-center justify-content-center"
+            >
+              Create the events, bilde ar amuru
+            </div>
+          </div>
+          <!-- Pieregistreties eventiem -->
+          <div class="col-6">
+            <div
+              class="bg-warning text-dark p-5 rounded d-flex align-items-center justify-content-center"
+            >
+              Sign Up for the events bile ar papiru
+            </div>
+          </div>
+          <!-- Atcelt eventus -->
+          <div class="col-6">
+            <div
+              class="bg-danger text-white p-5 rounded d-flex align-items-center justify-content-center"
+            >
+              Cancel the events you hosted, bilde, kur rada x
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
