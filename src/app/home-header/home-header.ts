@@ -10,7 +10,7 @@ import { UserLogInStatus } from '../globalieSignali/userLogInStatus';
 })
 export class HomeHeader {
 
-  currentUser = inject(UserLogInStatus)
+  logInStatus = inject(UserLogInStatus);
 
 
 }

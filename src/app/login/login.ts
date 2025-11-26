@@ -42,17 +42,19 @@ export class Login {
 
 
   logInUser(user: UserInterface) {
-    if (this.userForma().valid()) {    
-      const ielogotaisUsers = this.userSignals().name;
-      console.log("pasreizejais:",ielogotaisUsers)
-      this.logInStatus.loggedInUser.set(ielogotaisUsers)
-      this.userService.ielogoties(user).subscribe({
-        next: () => {
+    console.log(user)
+    if (this.userForma().valid()) {  
+        
+      this.userService.ielogoties(user).subscribe({      
+        next: (response) => {
+          console.log(response)
+          this.logInStatus.loggedInUser.update(() => ({
+            name: response.name,
+            id: response.id,
+          }))
           this.logInStatus.userLoggedIn.set(true);
-          this.router.navigate(['/home']);         
-          console.log("GREAT!!!!");
-          console.log(user)
-          console.log("Pasreizejais users apdeitots ar id", user.name)
+          this.router.navigate(['/home']);     
+          console.log("loginsignals:",this.logInStatus.loggedInUser())         
         },
         error: err => {
           if (err.status == 401) {
@@ -88,7 +90,7 @@ export class Login {
       this.userService.mekletUseri(pasreizejieSignalaDati).subscribe({
         next: (atbilde) => {
           console.log("Id no backenda", atbilde);
-          this.userSignals.update((user) => ({...user, id: atbilde}));
+          this.userSignals.update((user) => ({...user}));
         }, error: err => console.log(err),
       });
     }

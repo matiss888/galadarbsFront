@@ -6,7 +6,7 @@ export interface EventInterface {
     datums: Date;
     laiks: string;
     vieta: string;
-    paslaikPieteikusies: number;
+    pasreizejaisDalibniekuSkaits: number[];
     maxDalibnieki: number;
-    uztaisijaEventu: number;
+    createdBy?: number;
 }

@@ -10,7 +10,7 @@
       </div>
       <br />
       <div>
-        <label for="apraksts">Apraksts: </label>
+        <label for="apraksts">Īss apraksts: </label>
         <textarea
           type="text"
           placeholder="apraksts"
@@ -59,33 +59,42 @@
           <div class="card p-3 h-100">
             Nosaukums:{{ pasakums.nosaukums }}<br />
             <hr />
-            Apraksts:{{ pasakums.apraksts }}<br />
+            Īss apraksts:{{ pasakums.apraksts }}<br />
             <hr />
             Datums:{{ pasakums.datums }}<br />
             <hr />
             Laiks:{{ pasakums.laiks }}<br />
             <hr />
-            Pieteikušies: {{ pasakums.paslaikPieteikusies }} / Max dalībnieku skaits:{{
-              pasakums.maxDalibnieki
-            }}
+            Pieteikušies: {{ pasakums.pasreizejaisDalibniekuSkaits.length }} / Max dalībnieku
+            skaits:{{ pasakums.maxDalibnieki }}
             <hr />
             <div class="button-box d-flex gap-2">
-              <button type="button" class="btn btn-info border border-dark flex-grow-1">
+              <button
+                type="button"
+                class="btn btn-info border border-dark flex-grow-1"
+                (click)="atteiktiesNoPasakuma(pasakums.id!, logInTrue.loggedInUser().id!)"
+              >
                 Atteikties
-              </button>
-              <button type="button" class="btn btn-info border border-dark flex-grow-1">
-                Pieteikties
               </button>
               <button
                 type="button"
                 class="btn btn-info border border-dark flex-grow-1"
-                (click)="izdzestEventu(pasakums.id)"
+                (click)="pieteiktiesEventam(pasakums)"
               >
-                Izdzēst
+                Pieteikties
               </button>
             </div>
-            Izveidoja šis users ar šo id un, ja šis users ir tas, kas izveidoja, tad viņam ir opcija
-            delete, ja nē, tad gray out
+            Izveidoja šis id:{{ pasakums.createdBy }}
+            @if(this.logInTrue.loggedInUser().id == pasakums.createdBy) {
+            <button
+              type="button"
+              class="btn btn-info border border-dark flex"
+              (click)="izdzestEventu(pasakums.id)"
+            >
+              Izdzēst
+            </button>
+            } @else { fails }
+            <p></p>
           </div>
         </div>
         }
