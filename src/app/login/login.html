@@ -1,13 +1,13 @@
 <app-header></app-header>
 
-<div class="container-fluid m-0 p-0 overflow-hidden">
+<div class="container-fluid p-0 overflow-hidden">
   <div class="row g-0" style="height: 90vh">
     <!-- 90% no ekrāna-->
 
     <!-- Kreisā puse -->
     <div class="col-6 d-flex justify-content-center align-items-center bg-primary text-white">
       <div class="text-center w-75">
-        <p class="mb-4 fs-5">Sign Up or Log In to create, sign or cancel your events</p>
+        <h3 class="mb-4">Ielogojies vai piereģistrējies, lai lietotu pasākumu organizētāju</h3>
         <form class="d-flex flex-column align-items-center">
           <!-- Vārds -->
           <div class="mb-3 w-75">
@@ -16,14 +16,15 @@
               type="text"
               class="form-control form-control-lg"
               id="name"
-              placeholder="Name"
+              placeholder="Vārds"
               [field]="userForma.name"
             />
             <!-- Parādīt vārda requirments kļūdu, ja ir-->
             <ul class="m-0 p-0" style="list-style-position: inside">
-              @for(err of userForma.name().errors(); track $index) {
+              @if(userForma.name().touched() || userForma.name().dirty()) { @for(err of
+              userForma.name().errors(); track $index) {
               <li>{{ err.message }}</li>
-              }
+              } }
             </ul>
           </div>
 
@@ -34,68 +35,76 @@
               type="password"
               class="form-control form-control-lg"
               id="password"
-              placeholder="Password"
+              placeholder="Parole"
               [field]="userForma.password"
             />
             <!-- paroles kļūdu requirementi -->
             <div class="align-items-center m-0 p-0">
               <ul class="m-0 p-0" style="list-style-position: inside">
-                @for(err of userForma.password().errors(); track $index){
+                @if(userForma.password().touched() || userForma.password().dirty()) { @for(err of
+                userForma.password().errors(); track $index){
                 <li>{{ err.message }}</li>
-                }
+                } }
               </ul>
             </div>
           </div>
-          <button type="button" (click)="logInUser(this.userSignals())">Log In</button>
-          <button type="button" (click)="signUpUser()">Sign Up</button>
-          <button type="button" (click)="mekletUseri()">Meklet useri</button>
+          <div class="d-flex gap-3">
+            <button
+              type="button"
+              class="bg-info border border-dark btn btn-lg"
+              (click)="logInUser(this.userSignals())"
+            >
+              Log In
+            </button>
+            <button
+              type="button"
+              class="btn bg-info border border-dark btn-lg mr-1"
+              (click)="signUpUser()"
+            >
+              Sign Up
+            </button>
+          </div>
+          <!-- <button type="button" (click)="mekletUseri()">Meklet useri</button> -->
 
           <div [hidden]="!this.signUp.signUpClicked">
             @if(this.userForma().valid() && this.signUp.signUpClicked) {
-            <p>User created, enter username and passsword again to log in.</p>
+            <p>Lietotājs uztaisīts, ievadi lietotājvārdu un paroli, lai pievienotos.</p>
             } @else {
-            <p>Double check the requirements for username and password.</p>
+            <p>Pārbaudi lietotājvārdu un paroli.</p>
             }
           </div>
         </form>
       </div>
     </div>
     <!-- Labā puse -->
-    <div class="col-6 d-flex justify-content-center align-items-center bg-light">
-      <div class="container text-center">
-        <h3 class="mb-4">Here you can:</h3>
+    <div class="col d-flex align-items-center">
+      <div class="bg-image"></div>
+      <div class="container">
+        <h3 class="">Šeit tu varēsi:</h3>
         <!-- Paskatit eventus -->
-        <div class="row g-4 justify-content-center">
-          <div class="col-6">
-            <div
-              class="bg-primary text-white p-5 rounded d-flex align-items-center justify-content-center"
-            >
-              Look at the events happening, bilde ar lupu
-            </div>
+        <div class="p-4">
+          <div class="p-4">
+            <ul class="bi bi-calendar-event">
+              Apskatīt pasākumus
+            </ul>
           </div>
           <!-- Uztaisit eventus -->
-          <div class="col-6">
-            <div
-              class="bg-success text-white p-5 rounded d-flex align-items-center justify-content-center"
-            >
-              Create the events, bilde ar amuru
-            </div>
+          <div class="p-4">
+            <ul class="bi bi-hammer">
+              Organizēt/taisīt pasākumus
+            </ul>
           </div>
           <!-- Pieregistreties eventiem -->
-          <div class="col-6">
-            <div
-              class="bg-warning text-dark p-5 rounded d-flex align-items-center justify-content-center"
-            >
-              Sign Up for the events bile ar papiru
-            </div>
+          <div class="p-4">
+            <ul class="bi bi-pencil-fill">
+              Piereģistrēties pasākumiem
+            </ul>
           </div>
           <!-- Atcelt eventus -->
-          <div class="col-6">
-            <div
-              class="bg-danger text-white p-5 rounded d-flex align-items-center justify-content-center"
-            >
-              Cancel the events you hosted, bilde, kur rada x
-            </div>
+          <div class="p-4">
+            <ul class="bi bi-eraser">
+              Atcelt savus izveidotos pasākumus
+            </ul>
           </div>
         </div>
       </div>

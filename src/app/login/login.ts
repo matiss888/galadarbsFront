@@ -31,6 +31,7 @@ export class Login {
     required(parametrs.name, {message: "Name is required"});
     minLength(parametrs.name, 3, {message: "Name must be atleast 3 letters long"});
     maxLength(parametrs.name, 20, {message: "Shorten your name to fit 20 letters"});
+    pattern(parametrs.name, /^[^-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]+$/, {message: "Name can't have any symbols"}) 
 
     required(parametrs.password, {message: "Password is required"});
     minLength(parametrs.password, 8, {message: "Password must be atleast 8 symbols long"});
@@ -43,8 +44,7 @@ export class Login {
 
   logInUser(user: UserInterface) {
     console.log(user)
-    if (this.userForma().valid()) {  
-        
+    if (this.userForma().valid()) {          
       this.userService.ielogoties(user).subscribe({      
         next: (response) => {
           console.log(response)
@@ -58,7 +58,7 @@ export class Login {
         },
         error: err => {
           if (err.status == 401) {
-            console.error("wrong username and apssword")
+            console.error("wrong username or apssword")
           } else {
             console.log("login kļūda", err)
           }  
@@ -84,15 +84,15 @@ export class Login {
     }
   }
 
-  mekletUseri() {
-    if(this.userForma().valid()) {
-      const pasreizejieSignalaDati = this.userSignals();
-      this.userService.mekletUseri(pasreizejieSignalaDati).subscribe({
-        next: (atbilde) => {
-          console.log("Id no backenda", atbilde);
-          this.userSignals.update((user) => ({...user}));
-        }, error: err => console.log(err),
-      });
-    }
-  }
+  // mekletUseri() {
+  //   if(this.userForma().valid()) {
+  //     const pasreizejieSignalaDati = this.userSignals();
+  //     this.userService.mekletUseri(pasreizejieSignalaDati).subscribe({
+  //       next: (atbilde) => {
+  //         console.log("Id no backenda", atbilde);
+  //         this.userSignals.update((user) => ({...user}));
+  //       }, error: err => console.log(err),
+  //     });
+  //   }
+  // }
 }

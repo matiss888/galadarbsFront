@@ -10,6 +10,7 @@ import { VisiEventi } from '../interface/visiEvent-interface';
 import { HomeHeader } from "../home-header/home-header";
 import { Login } from '../login/login';
 import { UserDTO } from '../model/userDTO';
+import { JitEvaluator } from '@angular/compiler';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,7 @@ import { UserDTO } from '../model/userDTO';
   styleUrl: './home.css',
 })
 export class Home {
-
+  
 
   eventService = inject(EventServices)
   logInTrue = inject(UserLogInStatus);
@@ -58,11 +59,13 @@ export class Home {
 
   today = new Date(); 
 
+
+
   dabutVisusEventus() { 
     this.eventService.dabutVisusEventus().subscribe({
       next: atbilde => {
         console.log("Šis nak no dabut visus eventus", atbilde),
-        this.visiEventiSignals.update( () => ({
+        this.visiEventiSignals.update(() => ({
           visiEventi: atbilde}))   
       },
       error: err => console.log(err),
@@ -133,10 +136,37 @@ export class Home {
     })
   }
 
+  
+  atrastIstoEventu(event : EventInterface) {
+    return event;
+    
+  }
   atteiktiesNoPasakuma(eventId: number, userId : number) {
+    const istaisEventIndex = this.visiEventiSignals().visiEventi.findIndex(event => event.id === eventId)
+    console.log("vai es atradu index ?",istaisEventIndex)
     this.eventService.atteiktiesNoPasakuma(eventId, userId).subscribe({
       next: dati => {
-        this.visiEventiSignals().visiEventi
+      if(istaisEventIndex !== -1) {
+        console.log(istaisEventIndex)
+        const jaunaisArrajs = [...this.visiEventiSignals().visiEventi];
+        jaunaisArrajs.splice(
+          istaisEventIndex, 
+          1, 
+          dati
+          // {...this.visiEventiSignals().visiEventi[istaisEventIndex],
+          // pasreizejaisDalibniekuSkaits: dati.pasreizejaisDalibniekuSkaits}
+      )
+      this.visiEventiSignals.update(() => ({
+        visiEventi: jaunaisArrajs
+      }))
+      console.log("pec manipulacijam", jaunaisArrajs)}
+      
+        // this.atrastIstoEventu(dati);
+        // this.visiEventiSignals().visiEventi.findIndex()
+        // console.log("idnexof",this.visiEventiSignals().visiEventi.indexOf())
+        // this.visiEventiSignals.update(pasreizejais => ({
+        //   visiEventi: [...pasreizejais.visiEventi.filter(e => e.id !== eventId), dati]
+        // }))
         console.log("Atteikties no pasakuma: ",dati)
         console.log(dati.pasreizejaisDalibniekuSkaits.length)
         console.log("visieventi length ", this.visiEventiSignals().visiEventi.length)
