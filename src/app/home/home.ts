@@ -26,12 +26,12 @@ export class Home {
   router = inject(Router);
   userService = inject(UserService);
 
-  // ngOnInit(): void {
-  //   if(!this.logInTrue.userLoggedIn()){
-  //     this.dabutVisusEventus();
-  //     // this.router.navigate(['/login']);
-  //   }      
-  // }
+  ngOnInit(): void {
+    if(!this.logInTrue.userLoggedIn()){
+      this.dabutVisusEventus();
+      this.router.navigate(['/login']);
+    }      
+  }
   visiEventiSignals = signal<VisiEventi>({
     visiEventi: [],
   });
@@ -129,8 +129,8 @@ export class Home {
     this.eventService.pievienotUseri(event).subscribe({
       next: dati => {
         console.log("atbilde no bakend:", dati)
-        console.log("atbilde un kads tagad ir mans id:", pasreizejaisUserId)
-        console.log("mans arraj:",dati.pasreizejaisDalibniekuSkaits.push(pasreizejaisUserId))
+        // console.log("atbilde un kads tagad ir mans id:", pasreizejaisUserId)
+        // console.log("mans arraj:",dati.pasreizejaisDalibniekuSkaits.push(pasreizejaisUserId))
       },
       error: err => console.log(err)
     })
