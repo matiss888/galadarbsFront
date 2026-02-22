@@ -6,6 +6,8 @@ import { UserLogInStatus } from '../globalieSignali/userLogInStatus';
 import { UserService } from '../service/user-service';
 import { UserInterface } from '../interface/user-interface';
 import { SignUpClicked } from '../globalieSignali/signUpClicked';
+import { LoginRequest } from '../model/login-request';
+import { UserRequest } from '../model/user-request';
 
 
 @Component({
@@ -42,7 +44,7 @@ export class Login {
 
 
 
-  logInUser(user: UserInterface) {
+  logInUser(user: LoginRequest) {
     console.log(user)
     if (this.userForma().valid()) {          
       this.userService.ielogoties(user).subscribe({      
@@ -73,7 +75,7 @@ export class Login {
   signUpUser(){
     this.signUp.signUpClicked = true;
     if(this.userForma().valid()) {
-      this.userService.pieregistretUseri(this.userForma().value()).subscribe({
+      this.userService.pieregistretUseri(this.userForma().value() as UserRequest).subscribe({
         next: (atbilde) => {
           console.log("Saglabāts users:", atbilde);
         },
@@ -83,16 +85,4 @@ export class Login {
       })
     }
   }
-
-  // mekletUseri() {
-  //   if(this.userForma().valid()) {
-  //     const pasreizejieSignalaDati = this.userSignals();
-  //     this.userService.mekletUseri(pasreizejieSignalaDati).subscribe({
-  //       next: (atbilde) => {
-  //         console.log("Id no backenda", atbilde);
-  //         this.userSignals.update((user) => ({...user}));
-  //       }, error: err => console.log(err),
-  //     });
-  //   }
-  // }
 }

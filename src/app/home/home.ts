@@ -72,19 +72,8 @@ export class Home {
     })
   }
 
-  // dabutVisusEventus() {
-  //   this.eventService.dabutVisusEventus().subscribe({
-  //     next: (p) => {
-  //       console.log("Manieventi", p)
-  //       this.visiEventiSignals.set({visiEventi:p});
-  //     },
-  //     error: (err) => console.log("rr", err),
-  //   })
-  // }
-
   addEvent() {
     console.log("Tagad signals =", this.eventSignals())
-    // this.eventSignals.update(pasreizejaisSignals => console.log(pasreizejaisSignals) )
     this.eventForm().value.update(pasreizejais => ({
       ...pasreizejais,
       createdBy: this.logInTrue.loggedInUser().id,
@@ -129,8 +118,6 @@ export class Home {
     this.eventService.pievienotUseri(event).subscribe({
       next: dati => {
         console.log("atbilde no bakend:", dati)
-        // console.log("atbilde un kads tagad ir mans id:", pasreizejaisUserId)
-        // console.log("mans arraj:",dati.pasreizejaisDalibniekuSkaits.push(pasreizejaisUserId))
       },
       error: err => console.log(err)
     })
@@ -153,20 +140,11 @@ export class Home {
           istaisEventIndex, 
           1, 
           dati
-          // {...this.visiEventiSignals().visiEventi[istaisEventIndex],
-          // pasreizejaisDalibniekuSkaits: dati.pasreizejaisDalibniekuSkaits}
       )
       this.visiEventiSignals.update(() => ({
         visiEventi: jaunaisArrajs
       }))
       console.log("pec manipulacijam", jaunaisArrajs)}
-      
-        // this.atrastIstoEventu(dati);
-        // this.visiEventiSignals().visiEventi.findIndex()
-        // console.log("idnexof",this.visiEventiSignals().visiEventi.indexOf())
-        // this.visiEventiSignals.update(pasreizejais => ({
-        //   visiEventi: [...pasreizejais.visiEventi.filter(e => e.id !== eventId), dati]
-        // }))
         console.log("Atteikties no pasakuma: ",dati)
         console.log(dati.pasreizejaisDalibniekuSkaits.length)
         console.log("visieventi length ", this.visiEventiSignals().visiEventi.length)
@@ -174,29 +152,15 @@ export class Home {
       },
       error: err => console.log(err)
     })
-}
-      // this.eventForm().value.update(pasreizejais => ({
-    //   ...pasreizejais,
-    //   paslaikPieteikusies: [pasreizejais.paslaikPieteikusies.filter()],
-    // }))
-    // --------------------------------------------------------
-        // this.eventSignals.update(current => ({
-    //   ...current,
-    //   paslaikPieteikusies: {...current.paslaikPieteikusies, userId},
-    // }));
+  }
 
-    // this.eventSignals.update((dati) => ({
-    //   ...dati,
-    //   pasreizejaisDalibniekuSkaits: dati.pasreizejaisDalibniekuSkaits.filter(e => e !== userId),
-    // })) 
-            // this.visiEventiSignals.update(pasreizejais => ({
-    //   visiEventi: [...pasreizejais.visiEventi, dati]
-    // }))
+  pieteiktiesButtonIsDisabled(event: EventInterface): boolean {
+    const pasreizejaisUserId = this.logInTrue.loggedInUser().id;
 
-            // let izdzestUseri = dati.pasreizejaisDalibniekuSkaits.indexOf(userId)
-        // if(izdzestUseri !== -1) {
-        //   dati.pasreizejaisDalibniekuSkaits.splice(izdzestUseri, 1)
-        // }
-        // console.log("Atjaunots arraj TAGAD", izdzestUseri)
-
+    if(!pasreizejaisUserId) {
+      return true;
+    }
+    return event.pasreizejaisDalibniekuSkaits.includes(pasreizejaisUserId) ||
+         event.pasreizejaisDalibniekuSkaits.length >= event.maxDalibnieki;
+  }
 }

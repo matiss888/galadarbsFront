@@ -1,116 +1,114 @@
-<!-- @if(this.logInTrue.userLoggedIn()) { -->
-<app-home-header></app-home-header>
-<form>
-  <div class="container">
-    <h2>Izveidot jaunu pasākumu</h2>
-    <div class="mt-3 ml-3 col-4">
-      <div>
-        <label for="nosaukums">Nosaukums: </label>
-        <input type="text" placeholder="nosaukums" [field]="eventForm.nosaukums" />
-      </div>
-      <br />
-      <div>
-        <label for="apraksts">Īss apraksts: </label>
-        <br />
-        <textarea
-          type="text"
-          rows="5"
-          cols="40"
-          placeholder="apraksts"
-          [field]="eventForm.apraksts"
-          style="overflow: hidden; resize: none"
-          class=""
-        ></textarea>
-      </div>
-      <br />
-      <div>
-        <label for="datums">Datums: </label>
-        <input
-          type="date"
-          placeholder="datums"
-          [field]="eventForm.datums"
-          [min]="today | date : 'yyyy-MM-dd'"
-        />
-      </div>
-      <br />
-      <div>
-        <label for="laiks">Laiks: </label>
-        <input type="time" placeholder="laiks" [field]="eventForm.laiks" />
-      </div>
-      <br />
-      <div>
-        <label for="vieta">Vieta: </label>
-        <input type="text" placeholder="vieta" [field]="eventForm.vieta" />
-      </div>
-      <br />
-      <div>
-        <label for="maxDalibnieki">Max cilveki:</label>
-        <input type="number" placeholder="Max cilveki" [field]="eventForm.maxDalibnieki" />
-      </div>
-    </div>
-    <br />
-    <div class="d-flex gap-2">
-      <button type="button" class="btn btn-info p-2 border-dark gap-2" (click)="addEvent()">
-        Pievienot šo pasākumu
-      </button>
-      <button type="button" class="btn btn-info p-2 border-dark" (click)="dabutVisusEventus()">
-        Skatīt visus pasākumus
-      </button>
-    </div>
-    <br />
-  </div>
-  <br />
-  <div>
+@if (this.logInTrue.userLoggedIn()) {
+  <app-home-header></app-home-header>
+  <form>
     <div class="container">
-      <div class="row g-3">
-        @for (pasakums of visiEventiSignals().visiEventi; track $index) {
-        <div class="col-md-4">
-          <div class="card p-3 h-100">
-            Nosaukums:{{ pasakums.nosaukums }}<br />
-            <hr />
-            Īss apraksts:{{ pasakums.apraksts }}<br />
-            <hr />
-            Datums:{{ pasakums.datums | date : 'dd.MM.yyyy' }}<br />
-            <hr />
-            Laiks:{{ pasakums.laiks }}<br />
-            <hr />
-            Pieteikušies: {{ pasakums.pasreizejaisDalibniekuSkaits.length }} / Max dalībnieku
-            skaits:{{ pasakums.maxDalibnieki }}
-            <hr />
-            <div class="button-box d-flex gap-2">
-              <button
-                type="button"
-                class="btn btn-info border border-dark flex-grow-1"
-                (click)="atteiktiesNoPasakuma(pasakums.id!, logInTrue.loggedInUser().id!)"
-              >
-                Atteikties
-              </button>
-              <button
-                type="button"
-                class="btn btn-info border border-dark flex-grow-1"
-                (click)="pieteiktiesEventam(pasakums)"
-              >
-                Pieteikties
-              </button>
-            </div>
-            Izveidoja šis id:{{ pasakums.createdBy }}
-            @if(this.logInTrue.loggedInUser().id == pasakums.createdBy) {
-            <button
-              type="button"
-              class="btn btn-info border border-dark flex"
-              (click)="izdzestEventu(pasakums.id)"
-            >
-              Izdzēst
-            </button>
-            } @else { fails }
-            <p></p>
-          </div>
+      <h2>Izveidot jaunu pasākumu</h2>
+      <div class="mt-3 ml-3 col-4">
+        <div>
+          <label for="nosaukums">Nosaukums: </label>
+          <input type="text" placeholder="nosaukums" [field]="eventForm.nosaukums" />
         </div>
-        }
+        <br />
+        <div>
+          <label for="apraksts">Īss apraksts: </label>
+          <br />
+          <textarea
+            type="text"
+            rows="5"
+            cols="40"
+            placeholder="apraksts"
+            [field]="eventForm.apraksts"
+            style="overflow: hidden; resize: none"
+            class=""
+          ></textarea>
+        </div>
+        <br />
+        <div>
+          <label for="datums">Datums: </label>
+          <input
+            type="date"
+            placeholder="datums"
+            [field]="eventForm.datums"
+            [min]="today | date: 'yyyy-MM-dd'"
+          />
+        </div>
+        <br />
+        <div>
+          <label for="laiks">Laiks: </label>
+          <input type="time" placeholder="laiks" [field]="eventForm.laiks" />
+        </div>
+        <br />
+        <div>
+          <label for="vieta">Vieta: </label>
+          <input type="text" placeholder="vieta" [field]="eventForm.vieta" />
+        </div>
+        <br />
+        <div>
+          <label for="maxDalibnieki">Max cilveki:</label>
+          <input type="number" placeholder="Max cilveki" [field]="eventForm.maxDalibnieki" />
+        </div>
+      </div>
+      <br />
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-info p-2 border-dark gap-2" (click)="addEvent()">
+          Pievienot šo pasākumu
+        </button>
+        <button type="button" class="btn btn-info p-2 border-dark" (click)="dabutVisusEventus()">
+          Skatīt visus pasākumus
+        </button>
+      </div>
+      <br />
+    </div>
+    <br />
+    <div>
+      <div class="container">
+        <div class="row g-3">
+          @for (pasakums of visiEventiSignals().visiEventi; track $index) {
+            <div class="col-md-4">
+              <div class="card p-3 h-100">
+                Nosaukums:{{ pasakums.nosaukums }}<br />
+                <hr />
+                Īss apraksts:{{ pasakums.apraksts }}<br />
+                <hr />
+                Datums:{{ pasakums.datums | date: 'dd.MM.yyyy' }}<br />
+                <hr />
+                Laiks:{{ pasakums.laiks }}<br />
+                <hr />
+                Pieteikušies: {{ pasakums.pasreizejaisDalibniekuSkaits.length }} / Max dalībnieku
+                skaits:{{ pasakums.maxDalibnieki }}
+                <hr />
+                <div class="button-box d-flex gap-2">
+                  <button
+                    type="button"
+                    class="btn btn-info border border-dark flex-grow-1 mb-1"
+                    (click)="atteiktiesNoPasakuma(pasakums.id!, logInTrue.loggedInUser().id!)"
+                  >
+                    Atteikties
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-info border border-dark flex-grow-1 mb-1"
+                    (click)="pieteiktiesEventam(pasakums)"
+                    [disabled]="pieteiktiesButtonIsDisabled(pasakums)"
+                  >
+                    Pieteikties
+                  </button>
+                </div>
+                @if (this.logInTrue.loggedInUser().id == pasakums.createdBy) {
+                  <button
+                    type="button"
+                    class="btn btn-info border border-dark flex mb-1"
+                    (click)="izdzestEventu(pasakums.id)"
+                  >
+                    Izdzēst
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
       </div>
     </div>
-  </div>
-</form>
-<br />
-
-<!-- } -->
+  </form>
+  <br />
+}
